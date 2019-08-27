@@ -7,4 +7,6 @@ COPY ./ /usr/src/app
 
 RUN pip install -r  /usr/src/app/requirements.txt
 
+EXPOSE 5000
+
 CMD ["python", "/usr/src/app/app.py"]
