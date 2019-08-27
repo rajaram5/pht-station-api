@@ -1,0 +1,4 @@
+SPARQLWrapper
+rdflib
+requests
+Flask

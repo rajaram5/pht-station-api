@@ -1,0 +1,6 @@
+PREFIX swo: <http://www.ebi.ac.uk/swo/>
+
+SELECT DISTINCT ?useIntention WHERE { 
+	?train swo:SWO_9001002 ?trainUseIntention .    
+    ?trainUseIntention a ?useIntention.                      
+}

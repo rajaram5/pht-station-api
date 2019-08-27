@@ -1,0 +1,15 @@
+PREFIX train-onto: <http://www.example.com/train-ontology-placeholder/>
+PREFIX obo: <http://purl.obolibrary.org/obo/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+
+SELECT DISTINCT ?isAbout ?requirementPredicate ?requirementObject WHERE { 
+	?train train-onto:hasRequirement ?trainRequirement .
+    
+    ?trainRequirement a train-onto:Requirement;
+                      obo:IAO_0000136 ?isAbout;
+                      ?requirementPredicate ?requirementObject.
+    
+    FILTER((?requirementPredicate != rdf:type) && (?requirementPredicate != obo:IAO_0000136))
+                      
+}
