@@ -5,8 +5,8 @@ import rdflib
 from rdflib import URIRef, Literal
 
 app = Flask(__name__)
-app.config["fdpUrl"] = "http://136.243.4.200:8092/fdp"
-app.config["useClauseEndpoint"] = "http://localhost:7200/repositories/use-clause"
+app.config["fdpUrl"] = "https://demofdp2.fairdata.solutions/fdp"
+app.config["useClauseEndpoint"] = "http://136.243.4.200:8892/repositories/use-clause"
 
 @app.route("/", methods=['GET'])
 def home():

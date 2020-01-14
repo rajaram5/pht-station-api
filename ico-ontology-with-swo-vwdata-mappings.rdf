@@ -19914,6 +19914,8 @@ Preethi Shivayogi (2013). Vulnerable population and methods for their safeguard.
     <!-- http://www.ebi.ac.uk/swo/SWO_9000032 -->
 
     <owl:Class rdf:about="http://www.ebi.ac.uk/swo/SWO_9000032">
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#NoRestrictions"/>
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#ResearchUseOnly"/>
         <rdfs:label>Non-commercial use only</rdfs:label>
     </owl:Class>
     
@@ -19922,6 +19924,7 @@ Preethi Shivayogi (2013). Vulnerable population and methods for their safeguard.
     <!-- http://www.ebi.ac.uk/swo/license/SWO_1000136 -->
 
     <owl:Class rdf:about="http://www.ebi.ac.uk/swo/license/SWO_1000136">
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#NoRestrictions"/>
         <rdfs:label>Commercial use only</rdfs:label>
     </owl:Class>
     
@@ -20055,6 +20058,18 @@ All rights reserved.
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</dc:license>
         <rdfs:label xml:lang="en">stasis of generically dependent continuant</rdfs:label>
     </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#NoRestrictions -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#NoRestrictions"/>
+    
+
+
+    <!-- http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#ResearchUseOnly -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#ResearchUseOnly"/>
     
 
 

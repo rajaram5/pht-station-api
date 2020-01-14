@@ -1,0 +1,15 @@
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix sio: <http://semanticscience.org/resource/> .
+@prefix rdc: <http://rdf.biosemantics.org/ontologies/rd-connect/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sesame: <http://www.openrdf.org/schema/sesame#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix fn: <http://www.w3.org/2005/xpath-functions#> .
+
+<http://purl.org/byod/2018/rd-iss-rome-summer-school-20180914/dmd/Person/fa70449406c9203180e3491ab99a973e> rdc:59e1324d_567b_42e1_bc88_203004e660da <http://mysite.org/mydata/mypersons/Phenotype/c8e450b6285adc00a942e66fbf9a53e2> .
+
+<http://mysite.org/mydata/mypersons/Phenotype/c8e450b6285adc00a942e66fbf9a53e2> a obo:HP_0001249 .
+
+<http://purl.org/byod/2018/rd-iss-rome-summer-school-20180914/dmd/Person/95397663b44acbd8b59c80536be5a18f> rdc:59e1324d_567b_42e1_bc88_203004e660da <http://mysite.org/mydata/mypersons/Phenotype/c8e450b6285adc00a942e66fbf9a53e2> .
