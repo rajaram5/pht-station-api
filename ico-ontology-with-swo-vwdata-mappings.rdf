@@ -4913,6 +4913,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/DUO_0000034">
         <owl:equivalentClass rdf:resource="http://www.ebi.ac.uk/swo/SWO_9000032"/>
         <owl:equivalentClass rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000136"/>
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#NoRestrictions"/>
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#ResearchUseOnly"/>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0000066"/>
         <obo:DUO_0000041 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">age category research</obo:DUO_0000041>
         <obo:IAO_0000115 rdf:datatype="http://www.w3.org/2001/XMLSchema#string">An investigation concerning specific age categories.</obo:IAO_0000115>
@@ -9993,6 +9995,8 @@ Is part_of the appropriate relation to use for data items and documented identit
 
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/ICO_0000056">
         <owl:equivalentClass rdf:resource="http://www.ebi.ac.uk/swo/SWO_9000032"/>
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#NoRestrictions"/>
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#ResearchUseOnly"/>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0000066"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -10011,6 +10015,7 @@ Is part_of the appropriate relation to use for data items and documented identit
 
     <owl:Class rdf:about="http://purl.obolibrary.org/obo/ICO_0000057">
         <owl:equivalentClass rdf:resource="http://www.ebi.ac.uk/swo/license/SWO_1000136"/>
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/katywolst/ontologies/2019/1/patientConsent#NoRestrictions"/>
         <rdfs:subClassOf rdf:resource="http://purl.obolibrary.org/obo/OBI_0000066"/>
         <rdfs:subClassOf>
             <owl:Restriction>
