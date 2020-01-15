@@ -89,6 +89,9 @@ class FDP_SPARQL_crawler:
 
         # Get childern layers as graphs
         graphs = self._getObjectGraphs(graph, "http://www.w3.org/ns/dcat#distribution")
+        if len(conditions) == 0:
+            print("I got u")
+
         condition = conditions.pop(0)
 
         # Empty gobal graph

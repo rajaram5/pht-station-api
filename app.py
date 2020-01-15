@@ -5,7 +5,7 @@ import rdflib
 from rdflib import URIRef, Literal
 
 app = Flask(__name__)
-app.config["fdpUrl"] = "https://demofdp2.fairdata.solutions/fdp"
+app.config["fdpUrl"] = "http://136.243.4.200:8092/fdp"
 app.config["useClauseEndpoint"] = "http://136.243.4.200:8892/repositories/use-clause"
 
 @app.route("/", methods=['GET'])
@@ -44,9 +44,10 @@ def getDataAccessInterface():
         for dataset in datasets:
 
 
-
-            if crawler.does_useclause_of_train_dataset_match(dataset, use_conditions):
-                distributions = crawler.get_distributions(dataset, distribution_conditions)
+            dataset_conditions = use_conditions[:]
+            distribution_interface_conditions = distribution_conditions[:]
+            if crawler.does_useclause_of_train_dataset_match(dataset, dataset_conditions):
+                distributions = crawler.get_distributions(dataset, distribution_interface_conditions)
 
                 # TODO check use of template lib here
                 for access_url, access_predicate in distributions.items():
