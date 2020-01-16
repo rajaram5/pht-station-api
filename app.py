@@ -10,7 +10,8 @@ app.config["fdpUrl"] = "https://demofdp1.fairdata.solutions/fdp"
 app.config["useClauseEndpoint"] = "http://136.243.4.200:8892/repositories/use-clause"
 app.config["locationEndpoint"] = "http://136.243.4.200:8892/repositories/vwdata-location"
 
-FDP_SEARCH = FDP_search.FDP_search(app.config["fdpUrl"], app.config["useClauseEndpoint"], app.config["locationEndpoint"])
+FDP_SEARCH = FDP_search.FDP_search(app.config["fdpUrl"], app.config["useClauseEndpoint"],
+                                   app.config["locationEndpoint"])
 
 @app.route("/", methods=['GET'])
 def home():
@@ -23,45 +24,7 @@ def run_train():
 
 @app.route("/getDataAccessInterface", methods=['POST'])
 def get_data_access_interface():
-    payload = request.get_data()
-    if payload:
-        return "a"
-        # metadata = payload.decode('utf-8')
-        # print("metadata : " + metadata)
-        # fdp_uri = app.config["fdpUrl"]
-        # print("fdp uri : " + fdp_uri)
-        # # Init crawler
-        # crawler = FDP_SPARQL_crawler.FDP_SPARQL_crawler()
-        # # Init Conditions
-        # cond = Conditions.Conditions(app.config["useClauseEndpoint"])
-        # # Get dataset conditions
-        # dataset_conditions = cond.get_train_dataset_request(metadata)
-        # datasets = crawler.get_dataset(URIRef(fdp_uri), dataset_conditions)
-        # print(datasets)
-        #
-        # use_conditions = cond.get_train_use_intention(metadata)
-        # distribution_conditions = cond.get_train_distribution_request(metadata)
-        #
-        #
-        #
-        # graph = rdflib.Graph()
-        #
-        # for dataset in datasets:
-        #
-        #
-        #     dataset_conditions = use_conditions[:]
-        #     distribution_interface_conditions = distribution_conditions[:]
-        #     if crawler.does_useclause_matches(dataset, dataset_conditions):
-        #         distributions = crawler.get_distributions(dataset, distribution_interface_conditions)
-        #
-        #         # TODO check use of template lib here
-        #         for access_url, access_predicate in distributions.items():
-        #             graph.add( (URIRef(dataset), URIRef(access_predicate), URIRef(access_url)) )
-        #     else:
-        #         err_msg = "No access interface found. The dataset and train use conditions are different"
-        #         graph.add((URIRef(dataset), URIRef("http://purl.org/dc/terms/description"), Literal(err_msg)))
-    #
-    # return graph.serialize(format='n3');
+    return "Not implemented yet"
 
 
 @app.route("/getDataset", methods=['POST'])
