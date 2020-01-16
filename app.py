@@ -1,8 +1,9 @@
 from flask import Flask, request
 import FDP_search
+import Station_vocabulary
 
 import rdflib
-from rdflib import URIRef, Literal, XSD
+from rdflib import URIRef, Literal, XSD, RDF
 import uuid
 
 app = Flask(__name__)
@@ -45,29 +46,18 @@ def get_dataset():
         result_uri = URIRef("http://rdf.biosemantics.org/resources/pht-station/dataset/search/result/"
                             + str(uuid.uuid4()))
 
-        dataset_maches = URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetMachesQuery")
-        dataset_maches_useconditon = \
-            URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetMachesUseConditions")
-
-        dataset_maches_location_conditon = \
-            URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetMachesLocationConditions")
-
-        dataset_maches_date_conditon = \
-            URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetMachesConsentExpirtDate")
-
-        rdf_value = URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#value')
-
         graph = rdflib.Graph()
-        graph.add((result_uri, dataset_maches, Literal(len(datasets_matches_search), datatype=XSD.integer)))
-        graph.add((result_uri, dataset_maches_useconditon,
+        graph.add((result_uri, Station_vocabulary.QUERY_MATCHES_PREDICATE,
+                   Literal(len(datasets_matches_search), datatype=XSD.integer)))
+        graph.add((result_uri, Station_vocabulary.USE_INTENTION_MATCHES_PREDICATE,
                    Literal(len(datasets_matches_use_conditions), datatype=XSD.integer)))
-        graph.add((result_uri, dataset_maches_location_conditon,
+        graph.add((result_uri, Station_vocabulary.LOCATION_CONDITION_MATCHES_PREDICATE,
                    Literal(len(datasets_matches_location_conditions), datatype=XSD.integer)))
-        graph.add((result_uri, dataset_maches_date_conditon,
+        graph.add((result_uri, Station_vocabulary.CONSENT_EXPIRY_DATE_MATCHES_PREDICATE,
                    Literal(len(datasets_matches_date_conditions), datatype=XSD.integer)))
 
         for dataset in datasets_matches_date_conditions:
-            graph.add((result_uri, rdf_value, URIRef(dataset)))
+            graph.add((result_uri, RDF.value, URIRef(dataset)))
 
     return graph.serialize(format='n3');
 
