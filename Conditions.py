@@ -6,25 +6,26 @@ from rdflib.plugins.sparql import prepareQuery
 class Conditions:
 
     # specify optional data use conditions at each FDP level
-    repo_conditions = [(None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-                            URIRef('http://www.re3data.org/schema/3-0#Repository'))]
+    REPO_CONDITIONS = [(None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+                        URIRef('http://www.re3data.org/schema/3-0#Repository'))]
 
 
-    catalog_conditions = [(None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-                    URIRef('http://www.w3.org/ns/dcat#Catalog'))]
+    CATALOG_CONDITIONS = [(None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+                           URIRef('http://www.w3.org/ns/dcat#Catalog'))]
 
 
-    dataset_conditions = [(None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-                    URIRef('http://www.w3.org/ns/dcat#Dataset'))]
+    DATASET_CONDITIONS = [(None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+                           URIRef('http://www.w3.org/ns/dcat#Dataset'))]
 
-    distribution_conditions = [(None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
-                    URIRef('http://www.w3.org/ns/dcat#Distribution'))]
+    DISTRIBUTION_CONDITIONS = [(None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+                                URIRef('http://www.w3.org/ns/dcat#Distribution'))]
 
-    use_clause_endpoint = None
+    USE_CLAUSE_ENDPOINT = None
+
     def __init__(self, use_endpoint):
-        self.use_clause_endpoint = use_endpoint
+        self.USE_CLAUSE_ENDPOINT = use_endpoint
 
-    def getTrainDatasetUseIntention(self, metadata):
+    def get_train_use_intention(self, metadata):
 
         use_conditions = []
 
@@ -38,7 +39,7 @@ class Conditions:
             print(row)
             if row[0]:
                 class_url = str(row[0])
-                for url in self._get_use_intention_class_mappings(class_url):
+                for url in self._get_use_intention_class_mapping(class_url):
                     condition = (None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'), URIRef(url))
                     use_conditions.append(condition)
 
@@ -65,12 +66,12 @@ class Conditions:
         return conditions
 
 
-    def _get_use_intention_class_mappings(self, class_url):
+    def _get_use_intention_class_mapping(self, class_url):
 
         class_urls = [class_url]
 
-        if self.use_clause_endpoint:
-            sparql = SPARQLWrapper(self.use_clause_endpoint)
+        if self.USE_CLAUSE_ENDPOINT:
+            sparql = SPARQLWrapper(self.USE_CLAUSE_ENDPOINT)
 
             # Run get patient count query
             query = open('queries/get_use_intention_class_mappings.rq', 'r').read()
@@ -92,34 +93,34 @@ class Conditions:
 
 
 
-    def getTrainDatasetRequestConditions(self, metadata):
+    def get_train_dataset_request(self, metadata):
         graph = rdflib.Graph()
         graph.parse(data=metadata, format="text/turtle")
         # Get conditions from train metadata
-        rep_conditions = self._getRepositoryTrainRequestConditions(graph)
-        cat_conditions = self._getCatlogTrainRequestConditions(graph)
-        data_conditions = self._getDatasetTrainRequestConditions(graph)
+        rep_conditions = self._get_repository_train_request(graph)
+        cat_conditions = self._get_catalog_train_request(graph)
+        data_conditions = self._get_dataset_train_request(graph)
         return [rep_conditions, cat_conditions, data_conditions]
 
 
-    def getTrainDistributionRequestConditions(self, metadata):
+    def get_train_distribution_request(self, metadata):
         graph = rdflib.Graph()
         graph.parse(data=metadata, format="text/turtle")
         # Get conditions from train metadata
-        dist_conditions = self._getDistributionTrainRequestConditions(graph)
+        dist_conditions = self._get_distribution_train_request(graph)
         return [dist_conditions]
 
 
-    def _getRepositoryTrainRequestConditions(self, graph):
-        rep_conditions = self.repo_conditions
+    def _get_repository_train_request(self, graph):
+        rep_conditions = self.REPO_CONDITIONS
         return rep_conditions
 
-    def _getCatlogTrainRequestConditions(self, graph):
-        cat_conditions = self.catalog_conditions
+    def _get_catalog_train_request(self, graph):
+        cat_conditions = self.CATALOG_CONDITIONS
         return cat_conditions
 
-    def _getDatasetTrainRequestConditions(self, graph):
-        data_conditions = self.dataset_conditions
+    def _get_dataset_train_request(self, graph):
+        data_conditions = self.DATASET_CONDITIONS
         # Read train requirement query
         query = open('queries/get_train_requirements.rq', 'r').read()
         q = prepareQuery(query)
@@ -137,8 +138,8 @@ class Conditions:
         print(data_conditions)
         return data_conditions
 
-    def _getDistributionTrainRequestConditions(self, graph):
-        dist_conditions = self.distribution_conditions
+    def _get_distribution_train_request(self, graph):
+        dist_conditions = self.DISTRIBUTION_CONDITIONS
         # Read train requirement query
         query = open('queries/get_train_requirements.rq', 'r').read()
         q = prepareQuery(query)

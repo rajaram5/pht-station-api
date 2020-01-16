@@ -15,8 +15,6 @@ returns only a single end-point even if multiple are available
 
 class FDP_SPARQL_crawler:
 
-    #gg = rdflib.Graph()
-
     # FDP semantics (alternative implementation: crawl any link for dcat:Dataset)
     FDP_ROUTE = ['http://www.re3data.org/schema/3-0#dataCatalog',
                  'http://www.w3.org/ns/dcat#dataset',
@@ -51,16 +49,16 @@ class FDP_SPARQL_crawler:
         graph = rdflib.Graph()
         # Load distribution content to graph
         for url in urls:
-            graph = self._getGraph(url)
+            graph = self._get_graph(url)
 
         # Get childern layers as graphs
-        graphs = self._getObjectGraphs(graph, "http://www.w3.org/ns/dcat#distribution")
+        graphs = self._get_object_graphs(graph, "http://www.w3.org/ns/dcat#distribution")
         condition = conditions.pop(0)
 
         # Empty gobal graph
         graph.remove((None, None, None))
         for g in graphs:
-            if self._doesGraphMatchesConditions(g, condition):
+            if self._does_graph_matches_conditions(g, condition):
                 # Add content of childern layer which matches use condition
                     graph =  graph + g
             else:
@@ -94,16 +92,16 @@ class FDP_SPARQL_crawler:
 
         graph = rdflib.Graph()
         # Load distribution content to graph
-        graph = self._getGraph(dataset_url)
+        graph = self._get_graph(dataset_url)
 
         # Get childern layers as graphs
-        graphs = self._getObjectGraphs(graph, "http://www.w3.org/ns/dcat#distribution")
+        graphs = self._get_object_graphs(graph, "http://www.w3.org/ns/dcat#distribution")
         condition = conditions.pop(0)
 
         # Empty gobal graph
         graph.remove((None, None, None))
         for g in graphs:
-            if self._doesGraphMatchesConditions(g, condition):
+            if self._does_graph_matches_conditions(g, condition):
                 # Add content of childern layer which matches use condition
                     graph =  graph + g
             else:
@@ -131,9 +129,9 @@ class FDP_SPARQL_crawler:
 
 
 
-    def does_useclause_of_train_dataset_match(self, dataset, trainuseconditions):
+    def does_useclause_matches(self, dataset, trainuseconditions):
 
-        graph = self._getGraph(dataset)
+        graph = self._get_graph(dataset)
 
         for condition in trainuseconditions:
             # Get triples matches condition
@@ -147,9 +145,9 @@ class FDP_SPARQL_crawler:
         return False
 
 
-    def does__train_uselocation_dataset_uselocation_match(self, dataset, trainLocationUseConditions):
+    def does_uselocation_matches(self, dataset, train_location_conditions):
 
-        graph = self._getGraph(dataset)
+        graph = self._get_graph(dataset)
 
         location_condition_in_ds = (None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
                                     URIRef('http://purl.obolibrary.org/obo/DUO_0000022'))
@@ -175,11 +173,11 @@ class FDP_SPARQL_crawler:
         for uri in graph.objects(restriction_uri, RDF.value):
             location_uri = uri
 
-        for uri in self._get_loction_mappings(str(location_uri)):
+        for uri in self._get_location_mapping(str(location_uri)):
             if uri != location_uri:
                 graph.add((restriction_uri, RDF.value, URIRef(uri)))
 
-        for condition in trainLocationUseConditions:
+        for condition in train_location_conditions:
             # Get triples matches condition
             c_list = list(graph.triples(condition))
 
@@ -191,9 +189,9 @@ class FDP_SPARQL_crawler:
         return False
 
 
-    def does__train_date_dataset_date_match(self, dataset):
+    def does_dates_matches(self, dataset):
 
-        graph = self._getGraph(dataset)
+        graph = self._get_graph(dataset)
 
         date_condition_in_ds = (None, URIRef('https://w3id.org/GConsent#hasExpiry'), None)
 
@@ -221,15 +219,15 @@ class FDP_SPARQL_crawler:
 
 
 
-    def get_dataset(self, url, conditions):
+    def get_dataset(self, conditions):
         """Apply a minimal set of FDP/DCAT semantics to crawl through a FDP and
         find and return any available SPARQL end-points."""
 
         # Load FDP content to graph
-        graph = self._getGraph(url)
+        graph = self._get_graph(self.FDP_URL)
 
         # Check if fdp content mactches use condition, if not return None
-        if not self._doesGraphMatchesConditions(graph, conditions.pop(0)):
+        if not self._does_graph_matches_conditions(graph, conditions.pop(0)):
             return None
 
         """
@@ -243,13 +241,13 @@ class FDP_SPARQL_crawler:
 
         for predicate in fdp_dataset_route:
             # Get childern layers as graphs
-            graphs = self._getObjectGraphs(graph, predicate)
+            graphs = self._get_object_graphs(graph, predicate)
             condition = conditions.pop(0)
 
             # Empty gobal graph
             graph.remove((None, None, None))
             for g in graphs:
-                if self._doesGraphMatchesConditions(g, condition):
+                if self._does_graph_matches_conditions(g, condition):
                     # Add content of childern layer which matches use condition
                      graph =  graph + g
                 else:
@@ -267,7 +265,7 @@ class FDP_SPARQL_crawler:
 
 
 
-    def _doesGraphMatchesConditions(self, graph, conditions):
+    def _does_graph_matches_conditions(self, graph, conditions):
 
         """
         Check if the content of the graph matches conditions. Return true if content matches conditions
@@ -289,7 +287,7 @@ class FDP_SPARQL_crawler:
         return True
 
 
-    def _getObjectGraphs(self, graph, predicate):
+    def _get_object_graphs(self, graph, predicate):
         """
         For a given predicate get all objects of the predicate and load content of the object url(s) to graph(s).
 
@@ -301,13 +299,13 @@ class FDP_SPARQL_crawler:
         graphs = []
 
         for url in urls:
-            g = self._getGraph(url)
+            g = self._get_graph(url)
             graphs.append(g)
 
         return graphs
 
 
-    def _getGraph(self, url):
+    def _get_graph(self, url):
         """
         Load content of a url to graph
 
@@ -321,7 +319,7 @@ class FDP_SPARQL_crawler:
         return graph
 
 
-    def _get_loction_mappings(self, location_url):
+    def _get_location_mapping(self, location_url):
 
         location_urls = [location_url]
 
@@ -345,7 +343,3 @@ class FDP_SPARQL_crawler:
             print("Config mapping endpoint")
 
         return location_urls
-
-
-
-
