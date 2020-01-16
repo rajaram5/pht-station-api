@@ -1,0 +1,7 @@
+<http://www.wikidata.org/entity/Q55> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdf.geospecies.org/ont/geospecies#Location> <http://www.wikidata.org/entity/Q458> .
+<http://www.wikidata.org/entity/Q16188> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdf.geospecies.org/ont/geospecies#Location> <http://www.wikidata.org/entity/Q458> .
+
+<http://www.wikidata.org/entity/Q161885> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdf.geospecies.org/ont/geospecies#Location> <http://www.wikidata.org/entity/Q458> .
+
+# Hack soultion to add EU has a country. This need to be fixed later
+<http://www.wikidata.org/entity/Q458> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://rdf.geospecies.org/ont/geospecies#Location> <http://www.wikidata.org/entity/Q458> .

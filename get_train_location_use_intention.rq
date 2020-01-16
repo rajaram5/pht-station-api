@@ -1,0 +1,5 @@
+PREFIX train-onto: <http://www.example.com/train-ontology-placeholder/>
+
+SELECT DISTINCT ?trainOrigin WHERE {
+	?train train-onto:hasOrigin ?trainOrigin .
+}

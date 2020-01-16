@@ -89,9 +89,6 @@ class FDP_SPARQL_crawler:
 
         # Get childern layers as graphs
         graphs = self._getObjectGraphs(graph, "http://www.w3.org/ns/dcat#distribution")
-        if len(conditions) == 0:
-            print("I got u")
-
         condition = conditions.pop(0)
 
         # Empty gobal graph
@@ -130,6 +127,35 @@ class FDP_SPARQL_crawler:
         graph = self._getGraph(dataset)
 
         for condition in trainuseconditions:
+            # Get triples matches condition
+            c_list = list(graph.triples(condition))
+
+            if len(c_list) == 0:
+                print('mismatched condition')
+            else:
+                return True
+
+        return False
+
+
+    def does__train_uselocation_dataset_uselocation_match(self, dataset, trainLocationUseConditions):
+
+        graph = self._getGraph(dataset)
+
+        location_condition_in_ds = (None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
+                                    URIRef('http://purl.obolibrary.org/obo/DUO_0000022'))
+
+        # Check if dataset has geographical restriction
+        c_list = list(graph.triples(location_condition_in_ds))
+
+        '''
+        if no geographical restriction triples found in the dataset then that dataset can be accessed by train from
+        all origin 
+        '''
+        if len(c_list) == 0:
+            return True
+
+        for condition in trainLocationUseConditions:
             # Get triples matches condition
             c_list = list(graph.triples(condition))
 

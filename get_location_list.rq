@@ -1,0 +1,12 @@
+SELECT DISTINCT ?location WHERE {
+
+
+      GRAPH ?locationList {
+        <LOCATION_URL> a <http://rdf.geospecies.org/ont/geospecies#Location> .
+      }
+
+    GRAPH  ?locationList {
+	    ?location a <http://rdf.geospecies.org/ont/geospecies#Location> .
+	}
+
+}
