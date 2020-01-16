@@ -6,16 +6,16 @@ from rdflib import URIRef, Literal, XSD
 import uuid
 
 app = Flask(__name__)
-app.config["fdpUrl"] = "https://demofdp2.fairdata.solutions/fdp"
+app.config["fdpUrl"] = "https://demofdp1.fairdata.solutions/fdp"
 app.config["useClauseEndpoint"] = "http://136.243.4.200:8892/repositories/use-clause"
 app.config["locationEndpoint"] = "http://136.243.4.200:8892/repositories/vwdata-location"
 
 fdp_uri = app.config["fdpUrl"]
 print("fdp uri : " + fdp_uri)
 # Init crawler
-crawler = FDP_SPARQL_crawler.FDP_SPARQL_crawler()
+crawler = FDP_SPARQL_crawler.FDP_SPARQL_crawler(app.config["locationEndpoint"])
 # Init Conditions
-cond = Conditions.Conditions(app.config["useClauseEndpoint"], app.config["locationEndpoint"])
+cond = Conditions.Conditions(app.config["useClauseEndpoint"])
 
 @app.route("/", methods=['GET'])
 def home():
@@ -79,6 +79,7 @@ def getDataset():
         datasets_matches_use_conditions = getDatasetMatchesConditons(datasets_matches_search, metadata)
         datasets_matches_location_conditions = getDatasetMatchesLocationConditons(datasets_matches_use_conditions,
                                                                                   metadata)
+        datasets_matches_date_conditions = getDatasetMatchesDateConditons(datasets_matches_location_conditions)
 
         result_uri = URIRef("http://rdf.biosemantics.org/resources/pht-station/dataset/search/result/"
                             + str(uuid.uuid4()))
@@ -90,6 +91,9 @@ def getDataset():
         dataset_maches_location_conditon = \
             URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetMachesLocationConditions")
 
+        dataset_maches_date_conditon = \
+            URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetMachesConsentExpirtDate")
+
         rdf_value = URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#value')
 
         graph = rdflib.Graph()
@@ -98,8 +102,10 @@ def getDataset():
                    Literal(len(datasets_matches_use_conditions), datatype=XSD.integer)))
         graph.add((result_uri, dataset_maches_location_conditon,
                    Literal(len(datasets_matches_location_conditions), datatype=XSD.integer)))
+        graph.add((result_uri, dataset_maches_date_conditon,
+                   Literal(len(datasets_matches_date_conditions), datatype=XSD.integer)))
 
-        for dataset in datasets_matches_location_conditions:
+        for dataset in datasets_matches_date_conditions:
             graph.add((result_uri, rdf_value, URIRef(dataset)))
 
     return graph.serialize(format='n3');
@@ -132,6 +138,16 @@ def getDatasetMatchesLocationConditons(datasets, metadata):
             datasets_matches_location_conditions.append(dataset)
 
     return datasets_matches_location_conditions
+
+
+def getDatasetMatchesDateConditons(datasets):
+    datasets_matches_date_conditions = []
+
+    for dataset in datasets:
+        if crawler.does__train_date_dataset_date_match(dataset):
+            datasets_matches_date_conditions.append(dataset)
+
+    return datasets_matches_date_conditions
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000) #run app in debug mode on port 5000

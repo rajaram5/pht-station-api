@@ -1,6 +1,7 @@
 import rdflib
 from rdflib import RDF, URIRef
-from SPARQLWrapper import SPARQLWrapper
+from SPARQLWrapper import SPARQLWrapper, JSON
+from datetime import datetime, timedelta
 
 """
 TODO:
@@ -20,6 +21,12 @@ class FDP_SPARQL_crawler:
     fdp_route = ['http://www.re3data.org/schema/3-0#dataCatalog',
                  'http://www.w3.org/ns/dcat#dataset',
                  'http://www.w3.org/ns/dcat#distribution']
+
+
+    location_endpoint = None
+
+    def __init__(self, location_endpoint):
+        self.location_endpoint = location_endpoint
 
 
     def test_sparql_access(self, urls):
@@ -145,6 +152,7 @@ class FDP_SPARQL_crawler:
         location_condition_in_ds = (None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type'),
                                     URIRef('http://purl.obolibrary.org/obo/DUO_0000022'))
 
+
         # Check if dataset has geographical restriction
         c_list = list(graph.triples(location_condition_in_ds))
 
@@ -154,6 +162,20 @@ class FDP_SPARQL_crawler:
         '''
         if len(c_list) == 0:
             return True
+
+
+        restriction_uri = None
+
+        for location_restriction in graph.subjects(RDF.type, URIRef("http://purl.obolibrary.org/obo/DUO_0000022")):
+            restriction_uri = location_restriction
+
+        location_uri = None
+        for uri in graph.objects(restriction_uri, RDF.value):
+            location_uri = uri
+
+        for uri in self._get_loction_mappings(str(location_uri)):
+            if uri != location_uri:
+                graph.add((restriction_uri, RDF.value, URIRef(uri)))
 
         for condition in trainLocationUseConditions:
             # Get triples matches condition
@@ -165,6 +187,35 @@ class FDP_SPARQL_crawler:
                 return True
 
         return False
+
+
+    def does__train_date_dataset_date_match(self, dataset):
+
+        graph = self._getGraph(dataset)
+
+        date_condition_in_ds = (None, URIRef('https://w3id.org/GConsent#hasExpiry'), None)
+
+
+        # Check if dataset has consent expiry
+        c_list = list(graph.triples(date_condition_in_ds))
+
+        '''
+        if no consent expiry restriction triples found in the dataset then that dataset can be accessed by train from
+        all time 
+        '''
+        if len(c_list) == 0:
+            return True
+
+        for date in graph.objects(None, URIRef("https://w3id.org/GConsent#hasExpiry")):
+            present_time = datetime.now()
+            present_time = present_time.replace(tzinfo=None)
+
+            ds_expiry_time = datetime.fromisoformat(str(date))
+            ds_expiry_time = ds_expiry_time.replace(tzinfo=None)
+            if ds_expiry_time >= present_time:
+                return True
+            else:
+                return False
 
 
 
@@ -266,6 +317,32 @@ class FDP_SPARQL_crawler:
         graph.load(url)
         #time.sleep(3)
         return graph
+
+
+    def _get_loction_mappings(self, location_url):
+
+        location_urls = [location_url]
+
+        if self.location_endpoint:
+            sparql = SPARQLWrapper(self.location_endpoint)
+
+            # Run get patient count query
+            query = open('get_location_list.rq', 'r').read()
+
+            query = query.replace("LOCATION_URL", location_url)
+            sparql.setQuery(query)
+            sparql.setReturnFormat(JSON)
+            results = sparql.query().convert()
+
+            for result in results["results"]["bindings"]:
+                if result["location"]["value"]:
+                    location_url = result["location"]["value"]
+                    print(str(location_url))
+                    location_urls.append(location_url)
+        else:
+            print("Config mapping endpoint")
+
+        return location_urls
 
 
 

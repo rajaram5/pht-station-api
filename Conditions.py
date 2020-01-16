@@ -21,10 +21,8 @@ class Conditions:
                     URIRef('http://www.w3.org/ns/dcat#Distribution'))]
 
     use_clause_endpoint = None
-    location_endpoint = None
-    def __init__(self, use_endpoint, location_endpoint):
+    def __init__(self, use_endpoint):
         self.use_clause_endpoint = use_endpoint
-        self.location_endpoint = location_endpoint
 
     def getTrainDatasetUseIntention(self, metadata):
 
@@ -61,10 +59,8 @@ class Conditions:
             print(row)
             if row[0]:
                 location_url = str(row[0])
-                for url in self._get_loction_mappings(location_url):
-                    condition = (None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#value'), URIRef(url))
-                    conditions.append(condition)
-
+                condition = (None, URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#value'), URIRef(location_url))
+                conditions.append(condition)
         print(conditions)
         return conditions
 
@@ -93,32 +89,6 @@ class Conditions:
             print("Config mapping endpoint")
 
         return class_urls
-
-
-    def _get_loction_mappings(self, location_url):
-
-        location_urls = [location_url]
-
-        if self.location_endpoint:
-            sparql = SPARQLWrapper(self.location_endpoint)
-
-            # Run get patient count query
-            query = open('get_location_list.rq', 'r').read()
-
-            query = query.replace("LOCATION_URL", location_url)
-            sparql.setQuery(query)
-            sparql.setReturnFormat(JSON)
-            results = sparql.query().convert()
-
-            for result in results["results"]["bindings"]:
-                if result["location"]["value"]:
-                    location_url = result["location"]["value"]
-                    print(str(location_url))
-                    location_urls.append(location_url)
-        else:
-            print("Config mapping endpoint")
-
-        return location_urls
 
 
 
