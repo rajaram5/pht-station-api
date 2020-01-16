@@ -13,7 +13,7 @@ app.config["locationEndpoint"] = "http://136.243.4.200:8892/repositories/vwdata-
 fdp_uri = app.config["fdpUrl"]
 print("fdp uri : " + fdp_uri)
 # Init crawler
-crawler = FDP_SPARQL_crawler.FDP_SPARQL_crawler(app.config["locationEndpoint"])
+crawler = FDP_SPARQL_crawler.FDP_SPARQL_crawler(app.config["fdpUrl"], app.config["locationEndpoint"])
 # Init Conditions
 cond = Conditions.Conditions(app.config["useClauseEndpoint"])
 

@@ -31,7 +31,7 @@ class Conditions:
         graph = rdflib.Graph()
         graph.parse(data=metadata, format="text/turtle")
         # Read train requirement query
-        query = open('get_train_use_intention.rq', 'r').read()
+        query = open('queries/get_train_use_intention.rq', 'r').read()
         q = prepareQuery(query)
 
         for row in graph.query(q):
@@ -52,7 +52,7 @@ class Conditions:
         graph = rdflib.Graph()
         graph.parse(data=metadata, format="text/turtle")
         # Read train origin query
-        query = open('get_train_location_use_intention.rq', 'r').read()
+        query = open('queries/get_train_location_use_intention.rq', 'r').read()
         q = prepareQuery(query)
 
         for row in graph.query(q):
@@ -73,7 +73,7 @@ class Conditions:
             sparql = SPARQLWrapper(self.use_clause_endpoint)
 
             # Run get patient count query
-            query = open('get_use_intention_class_mappings.rq', 'r').read()
+            query = open('queries/get_use_intention_class_mappings.rq', 'r').read()
 
             query = query.replace("CLASS_URL", class_url)
             sparql.setQuery(query)
@@ -121,7 +121,7 @@ class Conditions:
     def _getDatasetTrainRequestConditions(self, graph):
         data_conditions = self.dataset_conditions
         # Read train requirement query
-        query = open('get_train_requirements.rq', 'r').read()
+        query = open('queries/get_train_requirements.rq', 'r').read()
         q = prepareQuery(query)
 
         dataset_type = rdflib.URIRef("http://www.w3.org/ns/dcat#Dataset")
@@ -140,7 +140,7 @@ class Conditions:
     def _getDistributionTrainRequestConditions(self, graph):
         dist_conditions = self.distribution_conditions
         # Read train requirement query
-        query = open('get_train_requirements.rq', 'r').read()
+        query = open('queries/get_train_requirements.rq', 'r').read()
         q = prepareQuery(query)
 
         distribution_type = rdflib.URIRef("http://www.w3.org/ns/dcat#Distribution")

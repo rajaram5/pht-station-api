@@ -18,15 +18,17 @@ class FDP_SPARQL_crawler:
     #gg = rdflib.Graph()
 
     # FDP semantics (alternative implementation: crawl any link for dcat:Dataset)
-    fdp_route = ['http://www.re3data.org/schema/3-0#dataCatalog',
+    FDP_ROUTE = ['http://www.re3data.org/schema/3-0#dataCatalog',
                  'http://www.w3.org/ns/dcat#dataset',
                  'http://www.w3.org/ns/dcat#distribution']
 
 
-    location_endpoint = None
+    LOCATION_ENDPOINT = None
+    FDP_URL = None
 
-    def __init__(self, location_endpoint):
-        self.location_endpoint = location_endpoint
+    def __init__(self, fdp_url, location_endpoint):
+        self.FDP_URL = fdp_url
+        self.LOCATION_ENDPOINT = location_endpoint
 
 
     def test_sparql_access(self, urls):
@@ -323,11 +325,11 @@ class FDP_SPARQL_crawler:
 
         location_urls = [location_url]
 
-        if self.location_endpoint:
-            sparql = SPARQLWrapper(self.location_endpoint)
+        if self.LOCATION_ENDPOINT:
+            sparql = SPARQLWrapper(self.LOCATION_ENDPOINT)
 
             # Run get patient count query
-            query = open('get_location_list.rq', 'r').read()
+            query = open('queries/get_location_list.rq', 'r').read()
 
             query = query.replace("LOCATION_URL", location_url)
             sparql.setQuery(query)
