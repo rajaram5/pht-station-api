@@ -1,7 +1,7 @@
 import rdflib
 from rdflib import RDF, URIRef
 from SPARQLWrapper import SPARQLWrapper, JSON
-from datetime import datetime, timedelta
+from datetime import datetime
 
 """
 TODO:
