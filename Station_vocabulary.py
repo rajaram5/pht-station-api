@@ -11,3 +11,6 @@ LOCATION_CONDITION_MATCHES_PREDICATE = \
 
 CONSENT_EXPIRY_DATE_MATCHES_PREDICATE = \
             URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetMatchesConsentExpirtDate")
+
+DATASET_AVAILABLE_PREDICATE = \
+            URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetAvailableToTrain")

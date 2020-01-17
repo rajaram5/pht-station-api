@@ -51,9 +51,11 @@ def get_dataset():
                    Literal(len(datasets_matches_search), datatype=XSD.integer)))
         graph.add((result_uri, Station_vocabulary.USE_INTENTION_MATCHES_PREDICATE,
                    Literal(len(datasets_matches_use_conditions), datatype=XSD.integer)))
+        graph.add((result_uri, Station_vocabulary.CONSENT_EXPIRY_DATE_MATCHES_PREDICATE,
+                   Literal(len(datasets_matches_date_conditions), datatype=XSD.integer)))
         graph.add((result_uri, Station_vocabulary.LOCATION_CONDITION_MATCHES_PREDICATE,
                    Literal(len(datasets_matches_location_conditions), datatype=XSD.integer)))
-        graph.add((result_uri, Station_vocabulary.CONSENT_EXPIRY_DATE_MATCHES_PREDICATE,
+        graph.add((result_uri, Station_vocabulary.DATASET_AVAILABLE_PREDICATE,
                    Literal(len(datasets_matches_date_conditions), datatype=XSD.integer)))
 
         for dataset in datasets_matches_date_conditions:
