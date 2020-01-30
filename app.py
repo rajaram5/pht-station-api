@@ -58,8 +58,25 @@ def get_dataset():
         graph.add((result_uri, Station_vocabulary.DATASET_AVAILABLE_PREDICATE,
                    Literal(len(datasets_matches_date_conditions), datatype=XSD.integer)))
 
-        for dataset in datasets_matches_date_conditions:
-            graph.add((result_uri, RDF.value, URIRef(dataset)))
+        for dataset in datasets_matches_search:
+            dataset_uri = URIRef(dataset)
+            if dataset in datasets_matches_date_conditions:
+                graph.add((result_uri, RDF.value, dataset_uri))
+                graph.add((dataset_uri, Station_vocabulary.DATASET_USE_STATUS_PREDICATE,
+                           Literal("This dataset is available for the train to use.", datatype=XSD.string)))
+            elif (dataset in datasets_matches_location_conditions and dataset not in datasets_matches_date_conditions):
+                graph.add((dataset_uri, Station_vocabulary.DATASET_USE_STATUS_PREDICATE,
+                           Literal("Consent of this dataset expired. Please contact dataset publisher.",
+                                   datatype=XSD.string)))
+            elif (dataset in datasets_matches_use_conditions and dataset not in datasets_matches_location_conditions):
+                graph.add((dataset_uri, Station_vocabulary.DATASET_USE_STATUS_PREDICATE,
+                           Literal("Dataset's use location and train's intended use location didn't match.",
+                                   datatype=XSD.string)))
+
+            elif (dataset not in datasets_matches_use_conditions):
+                graph.add((dataset_uri, Station_vocabulary.DATASET_USE_STATUS_PREDICATE,
+                           Literal("Use conditons of the dataset and the train didn't match.",
+                                   datatype=XSD.string)))
 
     return graph.serialize(format='n3');
 

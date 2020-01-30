@@ -14,3 +14,6 @@ CONSENT_EXPIRY_DATE_MATCHES_PREDICATE = \
 
 DATASET_AVAILABLE_PREDICATE = \
             URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/numberOfDatasetAvailableToTrain")
+
+DATASET_USE_STATUS_PREDICATE = \
+            URIRef("http://rdf.biosemantics.org/resources/pht-station/voca/datasetUseStatusForThisTrain")
